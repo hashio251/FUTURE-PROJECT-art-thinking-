@@ -7,19 +7,11 @@
   <title>ZOZO EDIT & FAMILY</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <script type="importmap">
-    {
-        "imports": {
-            "react": "https://esm.sh/react@18.2.0",
-            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-            "lucide-react": "https://esm.sh/lucide-react@0.263.1"
-        }
-    }
-    </script>
-
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
   <style>
+    *{
+      scrollbar-width: none;
+    }
+    
     body {
       -webkit-font-smoothing: antialiased;
     }
@@ -28,15 +20,24 @@
       padding-bottom: env(safe-area-inset-bottom);
     }
   </style>
+
+  <script>
+    // Tailwind CDN警告を抑制（開発環境用）
+    const originalWarn = console.warn;
+    console.warn = function(...args) {
+      if (args[0]?.includes?.('cdn.tailwindcss.com')) return;
+      originalWarn.apply(console, args);
+    };
+  </script>
 </head>
 
 <body class="bg-slate-50">
   <div id="root"></div>
 
-  <script type="text/babel" data-type="module">
-    import React, { useState } from 'react';
-    import { createRoot } from 'react-dom/client';
-    import { Home, User, Search, ShoppingBag, ChevronRight, Star, Clock, Users, Baby, UserCircle } from 'lucide-react';
+  <script type="module">
+    import React, { useState } from 'https://esm.sh/react@18.2.0';
+    import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
+    import { Home, User, Search, ShoppingBag, ChevronRight, Star, Clock, Users, Baby, UserCircle } from 'https://esm.sh/lucide-react@0.263.1';
 
     const ZozoEditFamily = () => {
       const [activeTab, setActiveTab] = useState('home');
@@ -58,7 +59,6 @@
           reason: '体型補正効果で3cm細見え',
           image: 'moc-images/home1.png'
         },
-
         {
           id: 2,
           name: 'スマートパンツ',
@@ -79,116 +79,122 @@
 
       // --- 各ページのコンポーネント ---
       const HomePage = () => (
-        <div className="space-y-6">
-          <div className="bg-gradient-to-r from-slate-800 to-slate-700 text-white p-6 rounded-lg">
-            <h1 className="text-2xl font-bold mb-2">キャンペーン</h1>
-            <p className="text-sm opacity-90">今ならポイント2倍＆配送料無料！</p>
-          </div>
+        React.createElement('div', { className: 'space-y-6' },
+          React.createElement('div', { className: 'bg-gradient-to-r from-slate-800 to-slate-700 text-white p-6 rounded-lg' },
+            React.createElement('h1', { className: 'text-2xl font-bold mb-2' }, 'キャンペーン'),
+            React.createElement('p', { className: 'text-sm opacity-90' }, '今ならポイント2倍＆配送料無料！')
+          ),
 
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              onClick={() => setActiveTab('scene')}
-              className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:shadow-md transition">
-              <div className="text-blue-600 mb-2">
-                <Search className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-base mb-1">シーンから探す</h3>
-              <p className="text-xs text-slate-600">TPO別の最適な服装を提案</p>
-            </button>
-            <button className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:shadow-md transition">
-              <div className="text-green-600 mb-2">
-                <User className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-base mb-1">体型診断</h3>
-              <p className="text-xs text-slate-600">3Dスキャンで似合う服を</p>
-            </button>
-          </div>
+          React.createElement('div', { className: 'grid grid-cols-2 gap-4' },
+            React.createElement('button', {
+              onClick: () => setActiveTab('scene'),
+              className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:shadow-md transition'
+            },
+              React.createElement('div', { className: 'text-blue-600 mb-2' },
+                React.createElement(Search, { className: 'w-6 h-6' })
+              ),
+              React.createElement('h3', { className: 'font-bold text-base mb-1' }, 'シーンから探す'),
+              React.createElement('p', { className: 'text-xs text-slate-600' }, 'TPO別の最適な服装を提案')
+            ),
+            React.createElement('button', {
+              className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:shadow-md transition'
+            },
+              React.createElement('div', { className: 'text-green-600 mb-2' },
+                React.createElement(User, { className: 'w-6 h-6' })
+              ),
+              React.createElement('h3', { className: 'font-bold text-base mb-1' }, '体型診断'),
+              React.createElement('p', { className: 'text-xs text-slate-600' }, '3Dスキャンで似合う服を')
+            )
+          ),
 
-          <div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold">あなたへの提案</h2>
-              <span className="text-sm text-blue-600">すべて見る</span>
-            </div>
-            <div className="space-y-3">
-              {recommendations.map(item => (
-                <div key={item.id} className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4">
-                  <img src={item.image} alt={item.name} className="w-24 h-24 object-cover rounded flex-shrink-0" />
-                  <div className="flex-1">
-                    <h3 className="font-bold text-base mb-1">{item.name}</h3>
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-lg font-bold text-slate-800">{item.price}</span>
-                      <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">適合度{item.fit}%</span>
-                    </div>
-                    <p className="text-sm text-slate-600">{item.reason}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          React.createElement('div', null,
+            React.createElement('div', { className: 'flex justify-between items-center mb-4' },
+              React.createElement('h2', { className: 'text-xl font-bold' }, 'あなたへの提案'),
+              React.createElement('span', { className: 'text-sm text-blue-600' }, 'すべて見る')
+            ),
+            React.createElement('div', { className: 'space-y-3' },
+              recommendations.map(item => (
+                React.createElement('div', {
+                  key: item.id,
+                  className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4'
+                },
+                  React.createElement('img', {
+                    src: item.image,
+                    alt: item.name,
+                    className: 'w-24 h-24 object-cover rounded flex-shrink-0'
+                  }),
+                  React.createElement('div', { className: 'flex-1' },
+                    React.createElement('h3', { className: 'font-bold text-base mb-1' }, item.name),
+                    React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                      React.createElement('span', { className: 'text-lg font-bold text-slate-800' }, item.price),
+                      React.createElement('span', { className: 'text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded' }, `適合度${item.fit}%`)
+                    ),
+                    React.createElement('p', { className: 'text-sm text-slate-600' }, item.reason)
+                  )
+                )
+              ))
+            )
+          ),
 
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-lg border border-amber-200">
-            <div className="flex items-start gap-3">
-              <Clock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-bold text-base mb-2">ZOZO at Home</h3>
-                <p className="text-sm text-slate-700 mb-3">
-                  自宅で試着。気に入らなければ玄関前に出すだけで返送完了
-                </p>
-                <button className="bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-amber-700 transition">
-                  詳しく見る
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+          React.createElement('div', { className: 'bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-lg border border-amber-200' },
+            React.createElement('div', { className: 'flex items-start gap-3' },
+              React.createElement(Clock, { className: 'w-5 h-5 text-amber-600 flex-shrink-0 mt-1' }),
+              React.createElement('div', null,
+                React.createElement('h3', { className: 'font-bold text-base mb-2' }, 'ZOZO at Home'),
+                React.createElement('p', { className: 'text-sm text-slate-700 mb-3' }, '自宅で試着。気に入らなければ玄関前に出すだけで返送完了'),
+                React.createElement('button', {
+                  className: 'bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-amber-700 transition'
+                }, '詳しく見る')
+              )
+            )
+          )
+        )
       );
 
       const ScenePage = () => (
-        <div className="space-y-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-xl font-bold mb-2">シーンから探す</h2>
-            <p className="text-sm text-slate-600">アイテム名ではなく、場面から最適な服装を提案します</p>
-          </div>
+        React.createElement('div', { className: 'space-y-4' },
+          React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+            React.createElement('h2', { className: 'text-xl font-bold mb-2' }, 'シーンから探す'),
+            React.createElement('p', { className: 'text-sm text-slate-600' }, 'アイテム名ではなく、場面から最適な服装を提案します')
+          ),
 
-          <div className="space-y-3">
-            {scenes.map(scene => (
-              <button
-                key={scene.id}
-                className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:shadow-md transition"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-bold text-base">{scene.title}</h3>
-                  <ChevronRight className="w-5 h-5 text-slate-400" />
-                </div>
-                <div className="flex gap-4 text-sm">
-                  <span className="text-slate-600">{scene.items}点の提案</span>
-                  <span className="text-green-600 font-bold flex items-center gap-1">
-                    <Star className="w-4 h-4 fill-current" />
-                    マナー適合度 {scene.mannerScore}%
-                  </span>
-                </div>
-              </button>
-            ))}
-          </div>
+          React.createElement('div', { className: 'space-y-3' },
+            scenes.map(scene => (
+              React.createElement('button', {
+                key: scene.id,
+                className: 'w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:shadow-md transition'
+              },
+                React.createElement('div', { className: 'flex justify-between items-center mb-2' },
+                  React.createElement('h3', { className: 'font-bold text-base' }, scene.title),
+                  React.createElement(ChevronRight, { className: 'w-5 h-5 text-slate-400' })
+                ),
+                React.createElement('div', { className: 'flex gap-4 text-sm' },
+                  React.createElement('span', { className: 'text-slate-600' }, `${scene.items}点の提案`),
+                  React.createElement('span', { className: 'text-green-600 font-bold flex items-center gap-1' },
+                    React.createElement(Star, { className: 'w-4 h-4 fill-current' }),
+                    `マナー適合度 ${scene.mannerScore}%`
+                  )
+                )
+              )
+            ))
+          ),
 
-          <div className="bg-blue-50 p-5 rounded-lg border border-blue-200">
-            <h3 className="font-bold text-base mb-2">マナー判定機能</h3>
-            <p className="text-sm text-slate-700">
-              露出度チェックやカジュアル度判定で「恥をかかない」を保証します
-            </p>
-          </div>
-        </div>
+          React.createElement('div', { className: 'bg-blue-50 p-5 rounded-lg border border-blue-200' },
+            React.createElement('h3', { className: 'font-bold text-base mb-2' }, 'マナー判定機能'),
+            React.createElement('p', { className: 'text-sm text-slate-700' }, '露出度チェックやカジュアル度判定で「恥をかかない」を保証します')
+          )
+        )
       );
 
       const WardrobePage = () => (
-        <div className="space-y-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-xl font-bold mb-2">Smart Wardrobe</h2>
-            <p className="text-sm text-slate-600">手持ちの服と合うかを判定し、無駄買いを防ぎます</p>
-          </div>
+        React.createElement('div', { className: 'space-y-4' },
+          React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+            React.createElement('h2', { className: 'text-xl font-bold mb-2' }, 'Smart Wardrobe'),
+            React.createElement('p', { className: 'text-sm text-slate-600' }, '手持ちの服と合うかを判定し、無駄買いを防ぎます')
+          ),
 
-          <div className="grid grid-cols-3 gap-3">
-            {[
+          React.createElement('div', { className: 'grid grid-cols-3 gap-3' },
+            [
               'moc-images/smart1.png',
               'moc-images/smart2.png',
               'moc-images/smart3.png',
@@ -196,278 +202,253 @@
               'moc-images/smart5.png',
               'moc-images/smart6.png'
             ].map((src, i) => (
-              <div key={i} className="aspect-square bg-slate-200 rounded-lg overflow-hidden">
-                <img src={src} alt={`item-${i}`} className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
+              React.createElement('div', {
+                key: i,
+                className: 'aspect-square bg-slate-200 rounded-lg overflow-hidden'
+              },
+                React.createElement('img', {
+                  src: src,
+                  alt: `item-${i}`,
+                  className: 'w-full h-full object-cover'
+                })
+              )
+            ))
+          ),
 
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4">
-            <img
-              src="moc-images/smart7.png"
-              alt="ネイビージャケット"
-              className="w-24 h-24 object-cover rounded flex-shrink-0"
-            />
-            <div className="flex">
-              <div className="flex-1">
-                <h3 className="font-bold text-base mb-1">ネイビージャケット</h3>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg font-bold text-slate-800">¥24,800</span>
-                  <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">
-                    似ているアイテムあり
-                  </span>
-                </div>
-                <div className="bg-amber-50 p-2 rounded border border-amber-200">
-                  <p className="text-xs font-bold text-amber-800 mb-1">⚠️ 注意</p>
-                  <p className="text-xs text-amber-700">
-                    2023年購入のジャケットと色・デザインが似ています
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+          React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4' },
+            React.createElement('img', {
+              src: 'moc-images/smart7.png',
+              alt: 'ネイビージャケット',
+              className: 'w-24 h-24 object-cover rounded flex-shrink-0'
+            }),
+            React.createElement('div', { className: 'flex' },
+              React.createElement('div', { className: 'flex-1' },
+                React.createElement('h3', { className: 'font-bold text-base mb-1' }, 'ネイビージャケット'),
+                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                  React.createElement('span', { className: 'text-lg font-bold text-slate-800' }, '¥24,800'),
+                  React.createElement('span', { className: 'text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded' }, '似ているアイテムあり')
+                ),
+                React.createElement('div', { className: 'bg-amber-50 p-2 rounded border border-amber-200' },
+                  React.createElement('p', { className: 'text-xs font-bold text-amber-800 mb-1' }, '⚠️ 注意'),
+                  React.createElement('p', { className: 'text-xs text-amber-700' }, '2023年購入のジャケットと色・デザインが似ています')
+                )
+              )
+            )
+          ),
 
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-lg border border-purple-200">
-            <h3 className="font-bold text-base mb-2">断捨離アラート</h3>
-            <p className="text-sm text-slate-700 mb-3">
-              2年以上着ていない服が8点あります。買取・リサイクルしませんか?
-            </p>
-            <button className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700 transition">
-              提案を見る
-            </button>
-          </div>
-        </div>
+          React.createElement('div', { className: 'bg-gradient-to-br from-purple-50 to-pink-50 p-5 rounded-lg border border-purple-200' },
+            React.createElement('h3', { className: 'font-bold text-base mb-2' }, '断捨離アラート'),
+            React.createElement('p', { className: 'text-sm text-slate-700 mb-3' }, '2年以上着ていない服が8点あります。買取・リサイクルしませんか?'),
+            React.createElement('button', {
+              className: 'bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-purple-700 transition'
+            }, '提案を見る')
+          )
+        )
       );
 
       const KidsPage = () => (
-        <div className="space-y-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-xl font-bold mb-2">キッズ</h2>
-            <p className="text-sm text-slate-600">お子様の成長に合わせた服選びをサポート</p>
-          </div>
+        React.createElement('div', { className: 'space-y-4' },
+          React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+            React.createElement('h2', { className: 'text-xl font-bold mb-2' }, 'キッズ'),
+            React.createElement('p', { className: 'text-sm text-slate-600' }, 'お子様の成長に合わせた服選びをサポート')
+          ),
 
-          <div className="bg-gradient-to-br from-pink-50 to-purple-50 p-5 rounded-lg border border-pink-200">
-            <div className="flex items-start gap-3">
-              <Baby className="w-5 h-5 text-pink-600 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-bold text-base mb-2">成長予測サイズ提案</h3>
-                <p className="text-sm text-slate-700 mb-3">
-                  お子様の成長データから、3ヶ月後のサイズを予測。買い替えタイミングをお知らせします
-                </p>
-              </div>
-            </div>
-          </div>
+          React.createElement('div', { className: 'bg-gradient-to-br from-pink-50 to-purple-50 p-5 rounded-lg border border-pink-200' },
+            React.createElement('div', { className: 'flex items-start gap-3' },
+              React.createElement(Baby, { className: 'w-5 h-5 text-pink-600 flex-shrink-0 mt-1' }),
+              React.createElement('div', null,
+                React.createElement('h3', { className: 'font-bold text-base mb-2' }, '成長予測サイズ提案'),
+                React.createElement('p', { className: 'text-sm text-slate-700 mb-3' }, 'お子様の成長データから、3ヶ月後のサイズを予測。買い替えタイミングをお知らせします')
+              )
+            )
+          ),
 
-          <div className="space-y-3">
-            <h3 className="font-bold text-lg">今月のおすすめ</h3>
+          React.createElement('div', { className: 'space-y-3' },
+            React.createElement('h3', { className: 'font-bold text-lg' }, '今月のおすすめ'),
 
+            React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4' },
+              React.createElement('img', {
+                src: 'moc-images/kids1.png',
+                alt: 'キッズ1',
+                className: 'w-24 h-24 object-cover rounded flex-shrink-0'
+              }),
+              React.createElement('div', { className: 'flex-1' },
+                React.createElement('h3', { className: 'font-bold text-base mb-1' }, 'キッズTシャツセット'),
+                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                  React.createElement('span', { className: 'text-lg font-bold text-slate-800' }, '¥3,980'),
+                  React.createElement('span', { className: 'text-xs bg-pink-100 text-pink-700 px-2 py-1 rounded' }, '110cm推奨')
+                ),
+                React.createElement('p', { className: 'text-sm text-slate-600' }, '3ヶ月後もちょうど良いサイズです')
+              )
+            ),
 
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4">
-              <img src="moc-images/kids1.png" alt="キッズ1" className="w-24 h-24 object-cover rounded flex-shrink-0" />
-              <div className="flex-1">
-                <h3 className="font-bold text-base mb-1">キッズTシャツセット</h3>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg font-bold text-slate-800">¥3,980</span>
-                  <span className="text-xs bg-pink-100 text-pink-700 px-2 py-1 rounded">110cm推奨</span>
-                </div>
-                <p className="text-sm text-slate-600">3ヶ月後もちょうど良いサイズです</p>
-              </div>
-            </div>
+            React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4' },
+              React.createElement('img', {
+                src: 'moc-images/kids2.png',
+                alt: 'キッズ2',
+                className: 'w-24 h-24 object-cover rounded flex-shrink-0'
+              }),
+              React.createElement('div', { className: 'flex-1' },
+                React.createElement('h3', { className: 'font-bold text-base mb-1' }, 'キッズフォーマルセット'),
+                React.createElement('div', { className: 'flex items-center gap-2 mb-2' },
+                  React.createElement('span', { className: 'text-lg font-bold text-slate-800' }, '¥8,900'),
+                  React.createElement('span', { className: 'text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded' }, '買取保証付き')
+                ),
+                React.createElement('p', { className: 'text-sm text-slate-600' }, '発表会や式典に最適')
+              )
+            )
+          ),
 
-
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex gap-4">
-              <img src="moc-images/kids2.png" alt="キッズ2" className="w-24 h-24 object-cover rounded flex-shrink-0" />
-              <div className="flex-1">
-                <h3 className="font-bold text-base mb-1">キッズフォーマルセット</h3>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-lg font-bold text-slate-800">¥8,900</span>
-                  <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">買取保証付き</span>
-                </div>
-                <p className="text-sm text-slate-600">発表会や式典に最適</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-orange-50 p-5 rounded-lg border border-orange-200">
-            <h3 className="font-bold text-base mb-2">🔔 買い替えリマインダー</h3>
-            <p className="text-sm text-slate-700 mb-3">
-              靴のサイズが小さくなっている可能性があります。足のサイズ測定をおすすめします
-            </p>
-            <button className="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-orange-700 transition">
-              測定方法を見る
-            </button>
-          </div>
-        </div>
+          React.createElement('div', { className: 'bg-orange-50 p-5 rounded-lg border border-orange-200' },
+            React.createElement('h3', { className: 'font-bold text-base mb-2' }, '🔔 買い替えリマインダー'),
+            React.createElement('p', { className: 'text-sm text-slate-700 mb-3' }, '靴のサイズが小さくなっている可能性があります。足のサイズ測定をおすすめします'),
+            React.createElement('button', {
+              className: 'bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-orange-700 transition'
+            }, '測定方法を見る')
+          )
+        )
       );
 
       const FamilyPage = () => (
-        <div className="space-y-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-xl font-bold mb-2">ファミリー管理</h2>
-            <p className="text-sm text-slate-600">家族全員の服を一括管理・購入</p>
-          </div>
+        React.createElement('div', { className: 'space-y-4' },
+          React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+            React.createElement('h2', { className: 'text-xl font-bold mb-2' }, 'ファミリー管理'),
+            React.createElement('p', { className: 'text-sm text-slate-600' }, '家族全員の服を一括管理・購入')
+          ),
 
-          <div className="space-y-3">
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-blue-700" />
-                </div>
-                <div>
-                  <p className="font-bold">佐藤 太郎（あなた）</p>
-                  <p className="text-sm text-slate-600">32歳・男性</p>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">体型データ更新済み</span>
-                <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">今週の提案 3点</span>
-              </div>
-            </div>
+          React.createElement('div', { className: 'space-y-3' },
+            React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+              React.createElement('div', { className: 'flex items-center gap-3 mb-3' },
+                React.createElement('div', { className: 'w-12 h-12 bg-blue-200 rounded-full flex items-center justify-center' },
+                  React.createElement(User, { className: 'w-6 h-6 text-blue-700' })
+                ),
+                React.createElement('div', null,
+                  React.createElement('p', { className: 'font-bold' }, '佐藤 太郎（あなた）'),
+                  React.createElement('p', { className: 'text-sm text-slate-600' }, '32歳・男性')
+                )
+              ),
+              React.createElement('div', { className: 'flex gap-2' },
+                React.createElement('span', { className: 'text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded' }, '体型データ更新済み'),
+                React.createElement('span', { className: 'text-xs bg-green-100 text-green-700 px-2 py-1 rounded' }, '今週の提案 3点')
+              )
+            ),
 
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-pink-700" />
-                </div>
-                <div>
-                  <p className="font-bold">佐藤 花子</p>
-                  <p className="text-sm text-slate-600">5歳・女の子</p>
-                </div>
-              </div>
-              <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                <p className="text-sm font-bold text-orange-800 mb-1">🔔 成長リマインダー</p>
-                <p className="text-xs text-orange-700">身長が伸びています。110cmサイズへの買い替えをおすすめします</p>
-              </div>
-            </div>
-          </div>
+            React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+              React.createElement('div', { className: 'flex items-center gap-3 mb-3' },
+                React.createElement('div', { className: 'w-12 h-12 bg-pink-200 rounded-full flex items-center justify-center' },
+                  React.createElement(User, { className: 'w-6 h-6 text-pink-700' })
+                ),
+                React.createElement('div', null,
+                  React.createElement('p', { className: 'font-bold' }, '佐藤 花子'),
+                  React.createElement('p', { className: 'text-sm text-slate-600' }, '5歳・女の子')
+                )
+              ),
+              React.createElement('div', { className: 'bg-orange-50 p-3 rounded border border-orange-200' },
+                React.createElement('p', { className: 'text-sm font-bold text-orange-800 mb-1' }, '🔔 成長リマインダー'),
+                React.createElement('p', { className: 'text-xs text-orange-700' }, '身長が伸びています。110cmサイズへの買い替えをおすすめします')
+              )
+            )
+          ),
 
-          <div className="bg-gradient-to-br from-teal-50 to-cyan-50 p-5 rounded-lg border border-teal-200">
-            <div className="flex items-start gap-3">
-              <Users className="w-5 h-5 text-teal-600 flex-shrink-0 mt-1" />
-              <div>
-                <h3 className="font-bold text-base mb-2">買取保証付き販売</h3>
-                <p className="text-sm text-slate-700 mb-3">
-                  子供服は成長に合わせて買取保証。「また着られなくなるかも」の不安を解消
-                </p>
-                <button className="bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-teal-700 transition">
-                  詳しく見る
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+          React.createElement('div', { className: 'bg-gradient-to-br from-teal-50 to-cyan-50 p-5 rounded-lg border border-teal-200' },
+            React.createElement('div', { className: 'flex items-start gap-3' },
+              React.createElement(Users, { className: 'w-5 h-5 text-teal-600 flex-shrink-0 mt-1' }),
+              React.createElement('div', null,
+                React.createElement('h3', { className: 'font-bold text-base mb-2' }, '買取保証付き販売'),
+                React.createElement('p', { className: 'text-sm text-slate-700 mb-3' }, '子供服は成長に合わせて買取保証。「また着られなくなるかも」の不安を解消'),
+                React.createElement('button', {
+                  className: 'bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-teal-700 transition'
+                }, '詳しく見る')
+              )
+            )
+          )
+        )
       );
 
       const AccountPage = () => (
-        <div className="space-y-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200">
-            <h2 className="text-xl font-bold mb-2">アカウント</h2>
-            <p className="text-sm text-slate-600">設定とプロフィール管理</p>
-          </div>
+        React.createElement('div', { className: 'space-y-4' },
+          React.createElement('div', { className: 'bg-white p-4 rounded-lg shadow-sm border border-slate-200' },
+            React.createElement('h2', { className: 'text-xl font-bold mb-2' }, 'アカウント'),
+            React.createElement('p', { className: 'text-sm text-slate-600' }, '設定とプロフィール管理')
+          ),
 
-          <div className="bg-white p-5 rounded-lg shadow-sm border border-slate-200">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
-                <User className="w-8 h-8 text-blue-700" />
-              </div>
-              <div>
-                <p className="font-bold text-lg">佐藤 太郎</p>
-                <p className="text-sm text-slate-600">taro.sato@example.com</p>
-              </div>
-            </div>
-            <button className="w-full bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-200 transition">
-              プロフィール編集
-            </button>
-          </div>
+          React.createElement('div', { className: 'bg-white p-5 rounded-lg shadow-sm border border-slate-200' },
+            React.createElement('div', { className: 'flex items-center gap-4 mb-4' },
+              React.createElement('div', { className: 'w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center' },
+                React.createElement(User, { className: 'w-8 h-8 text-blue-700' })
+              ),
+              React.createElement('div', null,
+                React.createElement('p', { className: 'font-bold text-lg' }, '佐藤 太郎'),
+                React.createElement('p', { className: 'text-sm text-slate-600' }, 'taro.sato@example.com')
+              )
+            ),
+            React.createElement('button', {
+              className: 'w-full bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-slate-200 transition'
+            }, 'プロフィール編集')
+          ),
 
-          <div className="space-y-2">
-            <button className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center">
-              <span className="font-medium">体型データ管理</span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </button>
-            <button className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center">
-              <span className="font-medium">注文履歴</span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </button>
-            <button className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center">
-              <span className="font-medium">お気に入り</span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </button>
-            <button className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center">
-              <span className="font-medium">支払い方法</span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </button>
-            <button className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center">
-              <span className="font-medium">配送先住所</span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </button>
-            <button className="w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center">
-              <span className="font-medium">設定</span>
-              <ChevronRight className="w-5 h-5 text-slate-400" />
-            </button>
-          </div>
+          React.createElement('div', { className: 'space-y-2' },
+            ['体型データ管理', '注文履歴', 'お気に入り', '支払い方法', '配送先住所', '設定'].map((label) => (
+              React.createElement('button', {
+                key: label,
+                className: 'w-full bg-white p-4 rounded-lg shadow-sm border border-slate-200 text-left hover:bg-slate-50 transition flex justify-between items-center'
+              },
+                React.createElement('span', { className: 'font-medium' }, label),
+                React.createElement(ChevronRight, { className: 'w-5 h-5 text-slate-400' })
+              )
+            ))
+          ),
 
-          <button className="w-full bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm font-bold hover:bg-red-100 transition border border-red-200">
-            ログアウト
-          </button>
-        </div>
+          React.createElement('button', {
+            className: 'w-full bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm font-bold hover:bg-red-100 transition border border-red-200'
+          }, 'ログアウト')
+        )
       );
 
       return (
-        <div className="min-h-screen bg-slate-50 font-sans pb-10">
-          {/* ヘッダー */}
-          <header className="bg-black/90 backdrop-blur-sm shadow-sm border-b border-slate-200 sticky z-50">
-            <div className="max-w-md mx-auto px-4 py-4 flex justify-center">
-              <h1 className="text-xl font-bold text-slate-800 text-white">ZOZO EDIT & FAMILY</h1>
-            </div>
-          </header>
+        React.createElement('div', { className: 'min-h-screen bg-slate-50 font-sans pb-10' },
+          React.createElement('header', { className: 'bg-black/90 backdrop-blur-sm shadow-sm border-b border-slate-200 sticky z-50' },
+            React.createElement('div', { className: 'max-w-md mx-auto px-4 py-4 flex justify-center' },
+              React.createElement('h1', { className: 'text-xl font-bold text-white' }, 'ZOZO EDIT & FAMILY')
+            )
+          ),
 
-          {/* メインコンテンツ（activeTabに合わせて表示切り替え） */}
-          <main className="max-w-md mx-auto pb-24 pt-6 px-4">
-            {activeTab === 'home' && <HomePage />}
-            {activeTab === 'scene' && <ScenePage />}
-            {activeTab === 'wardrobe' && <WardrobePage />}
-            {activeTab === 'kids' && <KidsPage />}
-            {activeTab === 'family' && <FamilyPage />}
-            {activeTab === 'account' && <AccountPage />}
-          </main>
+          React.createElement('main', { className: 'max-w-md mx-auto pb-24 pt-6 px-4' },
+            activeTab === 'home' && HomePage(),
+            activeTab === 'scene' && ScenePage(),
+            activeTab === 'wardrobe' && WardrobePage(),
+            activeTab === 'kids' && KidsPage(),
+            activeTab === 'family' && FamilyPage(),
+            activeTab === 'account' && AccountPage()
+          ),
 
-          {/* ボトムナビゲーション */}
-          <nav className="fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-md border-t border-slate-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 safe-area-pb">
-            <div className="max-w-md mx-auto flex justify-around py-2">
-              <button onClick={() => setActiveTab('home')} className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === 'home' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
-                <Home className="w-6 h-6" />
-                <span className="text-[10px] font-bold">ホーム</span>
-              </button>
-              <button onClick={() => setActiveTab('scene')} className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === 'scene' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
-                <Search className="w-6 h-6" />
-                <span className="text-[10px] font-bold">シーン</span>
-              </button>
-              <button onClick={() => setActiveTab('wardrobe')} className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === 'wardrobe' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
-                <ShoppingBag className="w-6 h-6" />
-                <span className="text-[10px] font-bold">ワードローブ</span>
-              </button>
-              <button onClick={() => setActiveTab('kids')} className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === 'kids' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
-                <Baby className="w-6 h-6" />
-                <span className="text-[10px] font-bold">キッズ</span>
-              </button>
-              <button onClick={() => setActiveTab('family')} className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === 'family' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
-                <Users className="w-6 h-6" />
-                <span className="text-[10px] font-bold">家族</span>
-              </button>
-              <button onClick={() => setActiveTab('account')} className={`flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === 'account' ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`}>
-                <UserCircle className="w-6 h-6" />
-                <span className="text-[10px] font-bold">設定</span>
-              </button>
-            </div>
-          </nav>
-        </div>
+          React.createElement('nav', { className: 'fixed bottom-0 left-0 right-0 bg-black/90 backdrop-blur-md border-t border-slate-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 safe-area-pb' },
+            React.createElement('div', { className: 'max-w-md mx-auto flex justify-around py-2' },
+              [
+                { id: 'home', icon: Home, label: 'ホーム' },
+                { id: 'scene', icon: Search, label: 'シーン' },
+                { id: 'wardrobe', icon: ShoppingBag, label: 'ワードローブ' },
+                { id: 'kids', icon: Baby, label: 'キッズ' },
+                { id: 'family', icon: Users, label: '家族' },
+                { id: 'account', icon: UserCircle, label: '設定' }
+              ].map(({ id, icon: Icon, label }) => (
+                React.createElement('button', {
+                  key: id,
+                  onClick: () => setActiveTab(id),
+                  className: `flex flex-col items-center gap-1 px-2 py-1 rounded-lg transition-all ${activeTab === id ? 'text-blue-600 scale-105' : 'text-slate-400 hover:text-slate-600'}`
+                },
+                  React.createElement(Icon, { className: 'w-6 h-6' }),
+                  React.createElement('span', { className: 'text-[10px] font-bold' }, label)
+                )
+              ))
+            )
+          )
+        )
       );
     };
 
     const root = createRoot(document.getElementById('root'));
-    root.render(<ZozoEditFamily />);
-
+    root.render(React.createElement(ZozoEditFamily));
   </script>
 </body>
 
